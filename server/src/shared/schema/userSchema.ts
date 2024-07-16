@@ -9,7 +9,7 @@ export enum userTypes {
 @Schema({
   timestamps: true,
 })
-export class User extends Document {
+export class Users extends Document {
   @Prop({ required: true })
   name: string;
   @Prop({ required: true })
@@ -25,4 +25,4 @@ export class User extends Document {
   @Prop({ default: null })
   otpExpiryTime: Date;
 }
-export const userSchema = SchemaFactory.createForClass(User);
+export const userSchema = SchemaFactory.createForClass(Users);
