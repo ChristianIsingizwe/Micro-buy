@@ -5,7 +5,15 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UsersService {
   create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    try {
+      createUserDto.
+    } catch (error) {
+      throw error
+    }
+  }
+
+  login(email: string, password: string){
+    return 'This action logs in the user'
   }
 
   findAll() {
