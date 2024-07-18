@@ -1,4 +1,5 @@
 {
     "port": 3120,
-    "mongodbUrl": "mongodb://localhost:27017/nest"
+    "mongodbUrl": "mongodb://localhost:27017/nest",
+    "adminSecretToken": "Christian23"
 }

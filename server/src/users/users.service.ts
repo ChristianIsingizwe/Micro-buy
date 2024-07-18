@@ -1,12 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-
+import config from 'config'
+import { UserRepository } from 'src/shared/repositories/user.repository';
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
+  constructor(@Inject(UserRepository) private readonly usersDB: UserRepository){}
+  async create(createUserDto: CreateUserDto) {
     try {
-      createUserDto.
+      createUserDto.password = await generateHashPassword(createUserDto.password)
+      if(createUserDto.type === 'ADMIN' && createUserDto.secretToken === config.get('adminSecretToken')){
+        throw new Error("Not allowed to create an admin")
+      }
+
+      const user = await this.usersDB.findOne({
+        email: createUserDto.email
+      })
     } catch (error) {
       throw error
     }
