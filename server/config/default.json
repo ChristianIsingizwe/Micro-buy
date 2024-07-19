@@ -1,5 +1,8 @@
 {
     "port": 3120,
     "mongodbUrl": "mongodb://localhost:27017/nest",
-    "adminSecretToken": "Christian23"
+    "adminSecretToken": "Christian23",
+    "recoveryCode":"A7QMWZF58285PB74KSFEXR5K",
+    "publickey": "pubkey-ec71b89739f77943e1309e81702660bd",
+    "signingkey": "5ea4bb6be9ea780d91b756b4951eb36d"
 }
