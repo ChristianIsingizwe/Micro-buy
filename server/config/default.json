@@ -3,6 +3,9 @@
     "mongodbUrl": "mongodb://localhost:27017/nest",
     "adminSecretToken": "Christian23",
     "recoveryCode":"A7QMWZF58285PB74KSFEXR5K",
-    "publickey": "pubkey-ec71b89739f77943e1309e81702660bd",
-    "signingkey": "5ea4bb6be9ea780d91b756b4951eb36d"
+    "signingkey": "5ea4bb6be9ea780d91b756b4951eb36d",
+    "emailService": {
+        "testDomain": "sandbox271bf24d5254442aa644f51306b55851.mailgun.org",
+        "publicApiKey" : "pubkey-ec71b89739f77943e1309e81702660bd"
+    }
 }
