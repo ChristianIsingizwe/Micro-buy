@@ -35,11 +35,11 @@ export class UsersController {
       loginUser.password,
     );
     if (loginRes.success) {
-      response.cookie('digi_auth_token', loginRes?.result.token, {
+      response.cookie('digi_auth_token', loginRes?.results.token, {
         httpOnly: true,
       });
     }
-    delete loginRes?.result.token;
+    delete loginRes?.results.token;
     return loginRes
   }
 
