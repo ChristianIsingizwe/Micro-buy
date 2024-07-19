@@ -8,6 +8,7 @@
         "testDomain": "sandbox271bf24d5254442aa644f51306b55851.mailgun.org",
         "publicApiKey" : "pubkey-ec71b89739f77943e1309e81702660bd",
         "privateKey": "b89c83d82745ca2a4ca6a1d42a59829e-91fbbdba-a389eeb4",
+        "tokenSecret": "Some231@123",
         "emailTemplates":{
             "verifyEmail": "micro-buy"
 

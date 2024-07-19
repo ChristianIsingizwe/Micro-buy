@@ -4,6 +4,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import config from 'config'
 import { UserRepository } from 'src/shared/repositories/user.repository';
 import { userTypes } from 'src/shared/schema/userSchema';
+import { sendEmail } from 'src/shared/utility/mail-handler';
+import { comparePassword, generateHashPassword } from 'src/shared/utility/password-manager';
+import { generateAuthToken } from 'src/shared/utility/tokenGenerator';
 @Injectable()
 export class UsersService {
   constructor(@Inject(UserRepository) private readonly usersDB: UserRepository){}
@@ -31,12 +34,22 @@ export class UsersService {
       const newUser = await this.usersDB.create({
         ...CreateUserDto,otp, otpExpiryTime
       });
-      if(newUser !== userTypes.ADMIN){
-        sendEmail()
+      if(newUser.type !== userTypes.ADMIN){
+        sendEmail(
+          newUser.email,
+          config.get('emailService.emailTemplates.verifyEmail'),
+          'Email verification - Micro-Buy',
+          {
+            customerName: newUser.name,
+            customerEmail: newUser.email,
+            otp
+          }
+
+        )
       }
       return {
         success: true,
-        message: "User created successfully",
+        message: newUser.type === userTypes.ADMIN ? "Admin created successfully" : "Please activate your account by verifying your email",
         result: { email: newUser.email}
       }
 
@@ -45,8 +58,46 @@ export class UsersService {
     }
   }
 
-  login(email: string, password: string){
-    return 'This action logs in the user'
+  async login(email: string, password: string){
+    try {
+      const userExists = await this.usersDB.findOne({
+        email,
+      })
+      if(!userExists){
+        throw new Error("User not found")
+      }
+      if(!userExists.isVerified){
+        throw new Error ("Please verify your account")
+      }
+
+      const isPasswordMatch = comparePassword(
+        password,
+        userExists.password
+      )
+
+      if(!isPasswordMatch){
+        throw new Error("Invalid email or password")
+      }
+      const token = await generateAuthToken(
+        userExists._id.toString()
+      );
+      return {
+        success: true,
+        message: "Login successfull",
+        results:{
+          user:{
+            name: userExists.name,
+            email: userExists.email,
+            type: userExists.type,
+            id: userExists._id.toString()
+          },
+          token
+        }
+      }
+    }
+    catch(error){
+      throw error
+    }
   }
 
   findAll() {
