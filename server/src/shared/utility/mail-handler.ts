@@ -21,4 +21,6 @@ export const sendEmail = async (
 
    const username = 'api'
    const password= config.get('emailService.privateKey')
+
+   
 };
